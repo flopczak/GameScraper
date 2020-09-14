@@ -1,10 +1,10 @@
 ## Spis treści
-* [Podstawowe informacje](# Podstawowe informacje)
-* [Jak zainstalować](# Jak zainstalować)
-* [Jak uruchomić](# Jak uruchomić)
+* [Podstawowe informacje](#Podstawowe-informacje)
+* [Jak zainstalować](#Jak-zainstalować)
+* [Jak uruchomić](#Jak-uruchomić)
 
 
-##Podstawowe informacje
+## Podstawowe informacje
 Branch demonstrujący działanie scrapera pobierające dane z PSStore(PL), Nintendo Eshop(UK) i Xbox store(PL)[WIP].
 	
 ## Jak zainstalować
