@@ -2,7 +2,7 @@ import scrapy
 from scrapy_splash import SplashRequest
 from currency_converter import CurrencyConverter
 
-class PostSpider(scrapy.Spider):
+class NintendoSpider(scrapy.Spider):
     c = CurrencyConverter()
     name = "nintendo"
     start_urls = [
@@ -28,7 +28,6 @@ class PostSpider(scrapy.Spider):
                 price = post.css('div.productBlock_from span.productBlock_fromValue::text').get()
             price = price.replace('£','')
             price = round(self.c.convert(price,'GBP','PLN'))
-            price = str(price)
             yield {
                 'title': title,
                 'price': price,

@@ -1,7 +1,8 @@
 import scrapy
+# from selenium import webdriver
 from scrapy_splash import SplashRequest
 
-class PostSpider(scrapy.Spider):
+class XboxSpider(scrapy.Spider):
     name = "xbox"
     start_urls = [
         'https://store.nintendo.co.uk/games/nintendo-switch/view-all.list'

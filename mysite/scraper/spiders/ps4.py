@@ -1,12 +1,14 @@
 import scrapy
+from scraper.items import GamesItem
 
-class PostSpider(scrapy.Spider):
+class PS4Spider(scrapy.Spider):
     name = "ps4"
     start_urls = [
         'https://store.playstation.com/pl-pl/grid/STORE-MSF75508-PS4CAT'
     ]
     def parse(self, response):
         for post in response.css('div.grid-cell--game'):
+            item = GamesItem()
             title = post.css('div.grid-cell__title span::text')[0].get()
             price = post.css('h3::text').get(),
             console = post.css('div.grid-cell__left-detail--detail-1::text').get()
@@ -14,15 +16,18 @@ class PostSpider(scrapy.Spider):
             link = 'https://store.playstation.com' + post.css('a.internal-app-link::attr(href)').get()
             if type(price[0]) == str:
                 price = price[0].replace(' zl', '').replace(',', '.')
+                if price == 'Bezpłatne':
+                    price = 0
+                else:
+                    price = float(price)
             else:
-                price = "Brak możliwości kupna"
-            yield {
-                'title': title,
-                'price': price,
-                'console': console,
-                'img': img,
-                'link': link
-            }
+                price = 00.00
+            item['title'] = title
+            item['price'] = price
+            item['console'] = console
+            item['img'] = img
+            item['link'] = link
+            yield item
         next_page = response.css('.grid-footer-controls a.paginator-control__next::attr(href)').get()
         print(next_page)
         if next_page is not None:
