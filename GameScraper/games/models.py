@@ -1,11 +1,14 @@
 from django.conf import settings
 from django.db import models
+from django.contrib.auth.models import User
+
 
 PLATFORMS = [('', ''), ('PS3', 'PlayStation 3'), ('PS4', 'PlayStation 4'), ('PSV', 'PlayStation Vita'),
              ('PSP', 'PlayStation Portable'), ('PS2', 'PlayStation 2'), ]
 
 
 class Account(models.Model):
+    owner = models.ForeignKey(User, related_name="accounts", on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=100)
     email = models.EmailField(max_length=100, unique=True)
     message = models.CharField(max_length=400, blank=True)
@@ -36,7 +39,7 @@ class ItemPrice(models.Model):
 
 
 class BasketItem(models.Model):
-    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User,related_name="Bascet", null=True, blank=True, on_delete=models.CASCADE)
     item_id = models.ForeignKey(Item, on_delete=models.CASCADE)
 
 
