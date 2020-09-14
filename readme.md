@@ -1,7 +1,7 @@
 ## Spis treści
-* [Podstawowe informacje](#Podstawowe informacje)
-* [Jak zainstalować](#Jak zainstalować)
-* [Jak uruchomić](#Jak uruchomić)
+* [Podstawowe informacje](# Podstawowe informacje)
+* [Jak zainstalować](# Jak zainstalować)
+* [Jak uruchomić](# Jak uruchomić)
 
 
 ##Podstawowe informacje
