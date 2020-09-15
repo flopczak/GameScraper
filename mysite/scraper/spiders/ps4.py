@@ -1,6 +1,6 @@
 import scrapy
 from scraper.items import GamesItem
-from scrp.models import GamesModel
+from scrp.models import GamesModel, HistoryModel
 
 class PS4Spider(scrapy.Spider):
     name = "ps4"
@@ -24,8 +24,14 @@ class PS4Spider(scrapy.Spider):
                 price = 00.00
             try:
                 item = GamesModel.objects.get(link=link)
+                history = HistoryModel()
+                setattr(history, 'game_id', getattr(item, 'id'))
+                setattr(history, 'title', getattr(item, 'title'))
+                setattr(history, 'price', getattr(item, 'price'))
+                history.save()
                 GamesModel.objects.filter(link=link).update(price=price)
                 print("game exists")
+
             except GamesModel.DoesNotExist:
                 item = GamesItem()
                 item['title'] = title

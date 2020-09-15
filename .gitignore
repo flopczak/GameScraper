@@ -161,3 +161,4 @@ yarn-debug.log*
 yarn-error.log*
 /.vscode
 /venv
+/mysite/mysite/secrets.py
