@@ -1,10 +1,14 @@
 import scrapy
 from scrapy_splash import SplashRequest
 from currency_converter import CurrencyConverter
+from scraper.items import GamesItem
+from scrp.models import GamesModel, HistoryModel
+
 
 class NintendoSpider(scrapy.Spider):
     c = CurrencyConverter()
     name = "nintendo"
+
     start_urls = [
         'https://store.nintendo.co.uk/games/nintendo-switch/view-all.list'
     ]
@@ -18,6 +22,7 @@ class NintendoSpider(scrapy.Spider):
     def parse(self, response):
         last_page = response.css('a.responsivePaginationButton--last::text').get()
         last_page = int(last_page)
+
         for post in response.css('div.productBlock'):
             title = post.css('h3.productBlock_productName::text').get().replace('\n','')
             price = post.css('div.productBlock_price span.productBlock_priceValue::text').get()
@@ -28,13 +33,22 @@ class NintendoSpider(scrapy.Spider):
                 price = post.css('div.productBlock_from span.productBlock_fromValue::text').get()
             price = price.replace('£','')
             price = round(self.c.convert(price,'GBP','PLN'))
-            yield {
-                'title': title,
-                'price': price,
-                'console': console,
-                'img': img,
-                'link': link
-            }
+            try:
+                item = GamesModel.objects.get(link=link)
+                history = HistoryModel()
+                setattr(history, 'game_id', getattr(item, 'id'))
+                setattr(history, 'title', getattr(item, 'title'))
+                setattr(history, 'price', getattr(item, 'price'))
+                history.save()
+                GamesModel.objects.filter(link=link).update(price=price)
+            except GamesModel.DoesNotExist:
+                item = GamesItem()
+                item['title'] = title
+                item['price'] = price
+                item['console'] = console
+                item['img'] = img
+                item['link'] = link
+                yield item
         page = 2
         next_p = True
         while next_p:

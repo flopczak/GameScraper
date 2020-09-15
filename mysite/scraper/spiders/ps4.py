@@ -30,8 +30,6 @@ class PS4Spider(scrapy.Spider):
                 setattr(history, 'price', getattr(item, 'price'))
                 history.save()
                 GamesModel.objects.filter(link=link).update(price=price)
-                print("game exists")
-
             except GamesModel.DoesNotExist:
                 item = GamesItem()
                 item['title'] = title
