@@ -3,7 +3,6 @@ import { Link, Redirect } from "react-router-dom";
 import { connect, getState } from "react-redux";
 import PropTypes from "prop-types";
 import { login } from "../../actions/auth";
-import store from "../../store";
 import styled from "styled-components";
 
 const ErrorMsg = styled.text`
@@ -24,14 +23,13 @@ export class Login extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    store.dispatch(login(this.state.username, this.state.password));
+    this.props.login(this.state.username, this.state.password);
   };
 
   onChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
   render() {
-    const dd = store.getState();
-    if (dd.auth.isAuthenticated) {
+    if (this.props.isAuthenticated) {
       return <Redirect to="/" />;
     }
     const { username, password } = this.state;
@@ -82,7 +80,7 @@ export const Test = () => {
 };
 
 const mapStateToProps = (state) => ({
-  auth: state.auth,
+  isAuthenticated: state.auth.isAuthenticated,
 });
 
 export default connect(mapStateToProps, { login })(Login);

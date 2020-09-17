@@ -7,8 +7,8 @@ import {
   Redirect,
 } from "react-router-dom";
 
-import { Register } from "./accounts/Register";
-import { Login, Test } from "./accounts/Login";
+import Register from "./accounts/Register";
+import Login, { Test } from "./accounts/Login";
 import UnNavbar from "./layout/UnNavbar";
 import { Provider } from "react-redux";
 import store from "../store";
