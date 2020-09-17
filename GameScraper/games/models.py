@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -14,34 +13,15 @@ class Account(models.Model):
     message = models.CharField(max_length=400, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-class Item(models.Model):
-    item_id = models.AutoField(primary_key=True)
-    title = models.SlugField(blank=False)
-    price = models.FloatField(null=True)
-    platform = models.CharField(max_length=3, choices=PLATFORMS, default=' ')
-    ps_id = models.CharField(max_length=50, blank=True)
-    image = models.SlugField(blank=True)
-    age_rating = models.IntegerField(default=99)
-    trailer_url = models.SlugField(blank=True)
-    onsale = models.BooleanField(default=False)
-    tag = models.SlugField(null=True, blank=True)
-    description = models.TextField(blank=True, null=True)
+class GamesModel(models.Model):
+    title = models.CharField(max_length=150)
+    price = models.FloatField()
+    console = models.CharField(max_length=150)
+    img = models.CharField(max_length=300)
+    link = models.CharField(max_length=300)
 
-    def __str__(self):
-        return self.title
-
-
-class ItemPrice(models.Model):
-    item_id = models.ForeignKey(Item, on_delete=models.CASCADE, null=True)
-    historical_price = models.FloatField(null=True)
-    date_fetched = models.DateTimeField(auto_now_add=True)
-
-
-
-class BasketItem(models.Model):
-    owner = models.ForeignKey(User,related_name="Bascet", null=True, blank=True, on_delete=models.CASCADE)
-    item_id = models.ForeignKey(Item, on_delete=models.CASCADE)
-
-
-class Carousel(models.Model):
-    image_url = models.SlugField()
+class HistoryModel(models.Model):
+    game_id = models.IntegerField()
+    title = models.CharField(max_length=150)
+    price = models.FloatField()
+    date = models.DateTimeField(auto_now_add=True,blank=True)

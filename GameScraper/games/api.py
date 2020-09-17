@@ -1,4 +1,4 @@
-from games.models import Item, Account
+from games.models import Account
 from rest_framework import viewsets, permissions
 from .serializers import GameSerializer, AccountSerializer
 from django.core.exceptions import PermissionDenied
