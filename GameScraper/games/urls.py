@@ -7,6 +7,6 @@ from django.urls import path
 router = routers.DefaultRouter()
 router.register('api/accounts', AccountViewSet, 'accounts' )
 router.register('api/games', views.GamesViewSet,'games')
-router.register('^api/games/(?P<console>.+)/$', views.QueryViewSet,'query')
+router.register('api/price', views.PriceHistory,'price')
 
 urlpatterns = router.urls
