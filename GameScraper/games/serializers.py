@@ -1,11 +1,17 @@
 from rest_framework import serializers
-from games.models import Item, Account
+from games.models import Account, GamesModel, HistoryModel
 
 
 #Item Serializer
 class GameSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Item
+        model = GamesModel
+        fields = '__all__'
+
+#Item Serializer
+class PriceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HistoryModel
         fields = '__all__'
 
 #Account Serializer 

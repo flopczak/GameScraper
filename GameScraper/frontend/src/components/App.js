@@ -1,44 +1,35 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import {
-  HashRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-} from "react-router-dom";
+import { HashRouter as Router } from "react-router-dom";
 
-import Register from "./accounts/Register";
-import Login, { Test } from "./accounts/Login";
-import UnNavbar from "./layout/UnNavbar";
 import { Provider } from "react-redux";
 import store from "../store";
-import PrivateRoute from "./common/PrivateRoute";
-import { login } from "../actions/auth";
 import { loadUser } from "../actions/auth";
+import Content from "./layout/Content/Content";
+import "./App.css";
 
-class App extends Component {
-  componentDidMount() {
+const App = () => {
+  const [sidebarIsOpen, setSidebarOpen] = useState(true);
+  const toggleSidebar = () => setSidebarOpen(!sidebarIsOpen);
+
+  useEffect(() => {
     store.dispatch(loadUser());
-  }
+  });
 
-  render() {
-    return (
-      <Provider store={store}>
-        <Router>
-          <Fragment>
-            <UnNavbar />
-            <div className="container">
-              <Switch>
-                <PrivateRoute exact path="/" component={Test} />
-                <Route exact path="/register" component={Register} />
-                <Route exact path="/login" component={Login} />
-              </Switch>
-            </div>
-          </Fragment>
-        </Router>
-      </Provider>
-    );
-  }
-}
+  return (
+    <Provider store={store}>
+      <Router>
+        <Fragment>
+          <div className="App wrapper">
+            <Content
+              toggleSidebar={toggleSidebar}
+              sidebarIsOpen={sidebarIsOpen}
+            />
+          </div>
+        </Fragment>
+      </Router>
+    </Provider>
+  );
+};
 
 ReactDOM.render(<App />, document.getElementById("app"));
