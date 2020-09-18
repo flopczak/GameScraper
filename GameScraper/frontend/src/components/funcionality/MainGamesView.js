@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardBody, CardImg, CardText } from "reactstrap";
+import { Card, CardBody, CardImg, CardText, CardTitle } from "reactstrap";
 import axios from "axios";
 import PaginationComponent from "react-reactstrap-pagination";
 
@@ -40,7 +40,8 @@ export const MainGamesView = () => {
         <Card>
           <CardImg alt="..." src={card.img} top></CardImg>
           <CardBody>
-            <CardText>{card.title}</CardText>
+            <CardTitle>{card.title}</CardTitle>
+            <CardText>{card.price} zł</CardText>
           </CardBody>
         </Card>
       );
