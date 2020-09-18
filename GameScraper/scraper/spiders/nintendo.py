@@ -35,7 +35,7 @@ class NintendoSpider(scrapy.Spider):
             try:
                 item = GamesModel.objects.get(link=link)
                 history = HistoryModel()
-                setattr(history, 'game_id', getattr(item, 'id'))
+                setattr(history, 'game_id', item)
                 setattr(history, 'title', getattr(item, 'title'))
                 setattr(history, 'price', getattr(item, 'price'))
                 history.save()
