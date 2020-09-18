@@ -29,11 +29,13 @@ a:focus {
   color: #fff;
   margin-left: -250px;
   transition: all 0.5s;
+  overflow: hidden;
 }
 
 .sidebar.is-open {
   margin-left: 0;
   transition: 0.5s;
+  overflow: hidden;
 }
 
 .sidebar-header {
@@ -104,7 +106,10 @@ li a.dropdown-toggle::after {
   padding: 20px;
   margin-left: 0;
   height: 100vh;
+  overflow: auto;
 }
+
+
 
 @media only screen and (max-width: 500px) {
   body {
@@ -114,6 +119,7 @@ li a.dropdown-toggle::after {
   .content.is-open {
     margin-left: 100%;
   }
+
 
   .sidebar.is-open {
     min-width: 100%;

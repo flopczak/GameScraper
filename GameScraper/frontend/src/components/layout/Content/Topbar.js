@@ -67,7 +67,7 @@ const Topbar = ({ toggleSidebar, auth, logout }) => {
     <Navbar
       color="light"
       light
-      className="navbar shadow-sm p-3 mb-5 bg-white rounded"
+      className="navbar shadow-sm p-3 mb-5 bg-white rounded topbar sticky"
       expand="md"
     >
       {auth.isAuthenticated ? (
