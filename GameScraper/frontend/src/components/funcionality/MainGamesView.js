@@ -68,7 +68,7 @@ export const MainGamesView = () => {
   return (
     <>
       {updateData()}
-      <div className=" card-columns">{displayCards()}</div>
+      <div className=" card-columns card-padding">{displayCards()}</div>
       <PaginationComponent
         totalItems={pagesCount}
         pageSize={51}
