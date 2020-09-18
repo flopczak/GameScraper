@@ -3,6 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.options import Options
 from games.models import GamesModel, HistoryModel
 
 
@@ -11,8 +12,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         url = 'https://www.xbox.com/pl-PL/games/all-games'
-
-        driver = webdriver.Chrome(executable_path=r'E:\Users\Przemeczek\Desktop\chromedriver.exe')
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")
+        driver = webdriver.Chrome(executable_path=r'E:\Users\Przemeczek\Desktop\chromedriver.exe', chrome_options=chrome_options)
 
         driver.get(url)
         element = WebDriverWait(driver, 15).until(
@@ -38,7 +40,7 @@ class Command(BaseCommand):
                 try:
                     item = GamesModel.objects.get(link=link)
                     history = HistoryModel()
-                    setattr(history, 'game_id', getattr(item, 'id'))
+                    setattr(history, 'game_id', item)
                     setattr(history, 'title', getattr(item, 'title'))
                     setattr(history, 'price', getattr(item, 'price'))
                     history.save()
