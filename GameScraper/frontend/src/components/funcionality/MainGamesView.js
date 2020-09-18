@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardBody, CardImg, CardText, CardTitle } from "reactstrap";
+import {
+  Card,
+  CardBody,
+  CardImg,
+  CardText,
+  CardTitle,
+  Button,
+} from "reactstrap";
 import axios from "axios";
 import PaginationComponent from "react-reactstrap-pagination";
 
@@ -21,13 +28,15 @@ export const MainGamesView = () => {
   };
 
   const handleOnSelect = (selectedPage) => {
-    const offset = selectedPage * 50;
+    const offset = selectedPage * 51;
     const link = `http://127.0.0.1:8000/api/games/?limit=50&offset=${offset}`;
     axios.get(link).then((response) => {
       setData(response.data);
       setResults(response.data.results);
     });
   };
+
+  const handleOnClick = () => {};
 
   useEffect(() => {
     console.log("useeefect", data);
@@ -42,6 +51,13 @@ export const MainGamesView = () => {
           <CardBody>
             <CardTitle>{card.title}</CardTitle>
             <CardText>{card.price} zł</CardText>
+            <Button
+              color="primary"
+              href="#pablo"
+              onClick={(e) => e.preventDefault()}
+            >
+              Go to page
+            </Button>
           </CardBody>
         </Card>
       );
@@ -55,7 +71,7 @@ export const MainGamesView = () => {
       <div className=" card-columns">{displayCards()}</div>
       <PaginationComponent
         totalItems={pagesCount}
-        pageSize={50}
+        pageSize={51}
         onSelect={handleOnSelect}
       />
     </>

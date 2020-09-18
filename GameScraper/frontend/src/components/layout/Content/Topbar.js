@@ -14,7 +14,7 @@ import { logout } from "../../../actions/auth";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
-const Topbar = ({ toggleSidebar, auth, logout }) => {
+const Topbar = ({ toggleSidebar, sidebarIsOpen, auth, logout }) => {
   const [topbarIsOpen, setTopbarOpen] = useState(true);
   const toggleTopbar = () => setTopbarOpen(!topbarIsOpen);
 
