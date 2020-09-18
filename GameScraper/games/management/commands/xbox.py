@@ -14,7 +14,7 @@ class Command(BaseCommand):
         url = 'https://www.xbox.com/pl-PL/games/all-games'
         chrome_options = Options()
         chrome_options.add_argument("--headless")
-        driver = webdriver.Chrome(executable_path=r'E:\Users\Przemeczek\Desktop\chromedriver.exe', chrome_options=chrome_options)
+        driver = webdriver.Chrome(executable_path=r'C:\Users\user\Desktop\chromedirver selenium\chromedriver.exe', chrome_options=chrome_options)
 
         driver.get(url)
         element = WebDriverWait(driver, 15).until(
