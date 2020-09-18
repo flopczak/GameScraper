@@ -1,92 +1,37 @@
 import React, { useState, useEffect } from "react";
-import {
-  Pagination,
-  PaginationItem,
-  PaginationLink,
-  Button,
-  Card,
-  CardBody,
-  CardImg,
-  CardTitle,
-  CardText,
-} from "reactstrap";
+import { Card, CardBody, CardImg, CardText } from "reactstrap";
 import axios from "axios";
-import PerfectScrollbar from "react-perfect-scrollbar";
+import PaginationComponent from "react-reactstrap-pagination";
 
 export const MainGamesView = () => {
   const [data, setData] = useState([]);
   const [results, setResults] = useState([]);
   const [flag, setFlag] = useState(false);
-  const [currentPage, setCurrentPage] = useState(0);
   const [pagesCount, setPagesCount] = useState(0);
-
-  const handleClick = (e, index) => {
-    e.preventDefault();
-
-    setCurrentPage({
-      currentPage: index,
-    });
-  };
 
   const updateData = () => {
     if (!flag) {
       axios.get("http://127.0.0.1:8000/api/games/").then((response) => {
         setData(response.data);
         setResults(response.data.results);
-        console.log(response);
+        setPagesCount(response.data.count);
         setFlag(true);
       });
     }
   };
 
-  const pagination = () => {
-    if (flag) {
-      if (data) {
-        console.log(data.count);
-        setPagesCount(Math.ceil(data.count / 50));
-      }
-      return (
-        <React.Fragment>
-          <div className="pagination-wrapper">
-            <Pagination aria-label="Page navigation example">
-              <PaginationItem disabled={currentPage <= 0}>
-                <PaginationLink
-                  onClick={(e) => this.handleClick(e, currentPage - 1)}
-                  previous
-                  href="#"
-                />
-              </PaginationItem>
-              <PaginationItem disabled>
-                <PaginationLink previous href="#" />
-              </PaginationItem>
-
-              {[...Array(pagesCount)].map((page, i) => (
-                <PaginationItem active={i === currentPage} key={i}>
-                  <PaginationLink
-                    onClick={(e) => this.handleClick(e, i)}
-                    href="#"
-                  >
-                    {i + 1}
-                  </PaginationLink>
-                </PaginationItem>
-              ))}
-
-              <PaginationItem>
-                <PaginationLink next href="#" />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink last href="#" />
-              </PaginationItem>
-            </Pagination>
-          </div>
-        </React.Fragment>
-      );
-    }
+  const handleOnSelect = (selectedPage) => {
+    const offset = selectedPage * 50;
+    const link = `http://127.0.0.1:8000/api/games/?limit=50&offset=${offset}`;
+    axios.get(link).then((response) => {
+      setData(response.data);
+      setResults(response.data.results);
+    });
   };
 
   useEffect(() => {
-    console.log(data);
-  }, [flag]);
+    console.log("useeefect", data);
+  }, [data]);
 
   const displayCards = () => {
     const cards = [];
@@ -107,7 +52,11 @@ export const MainGamesView = () => {
     <>
       {updateData()}
       <div className=" card-columns">{displayCards()}</div>
-      {/* {pagination()} */}
+      <PaginationComponent
+        totalItems={pagesCount}
+        pageSize={50}
+        onSelect={handleOnSelect}
+      />
     </>
   );
 };

@@ -30,6 +30,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-perfect-scrollbar": "^1.5.8",
+    "react-reactstrap-pagination": "^2.0.3",
     "react-redux": "^7.2.1",
     "react-router-dom": "^5.2.0",
     "reactstrap": "^8.5.1",
