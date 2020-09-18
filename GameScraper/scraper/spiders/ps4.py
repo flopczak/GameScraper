@@ -1,5 +1,4 @@
 import scrapy
-from scraper.items import GamesItem
 from games.models import GamesModel, HistoryModel
 
 class PS4Spider(scrapy.Spider):

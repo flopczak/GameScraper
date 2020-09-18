@@ -12,7 +12,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         url = 'https://www.xbox.com/pl-PL/games/all-games'
 
-        driver = webdriver.Chrome(executable_path=r'E:\Users\Przemeczek\Desktop\chromedriver.exe')
+        driver = webdriver.Chrome(executable_path=r'C:\Users\user\Desktop\chromedirver selenium\chromedriver.exe')
 
         driver.get(url)
         element = WebDriverWait(driver, 15).until(

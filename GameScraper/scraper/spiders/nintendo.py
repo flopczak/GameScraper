@@ -1,7 +1,6 @@
 import scrapy
 from scrapy_splash import SplashRequest
 from currency_converter import CurrencyConverter
-from scraper.items import GamesItem
 from games.models import GamesModel, HistoryModel
 
 
