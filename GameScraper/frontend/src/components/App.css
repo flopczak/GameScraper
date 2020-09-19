@@ -109,10 +109,35 @@ li a.dropdown-toggle::after {
   overflow: auto;
 }
 
+ul li {
+display: inline-block;
+}
+
+
+.container{
+ background: red;
+ text-align: center;
+}
+
+.card-columns {
+  column-count: 6;
+}
+
+.card-style {
+  height: 460px;
+}
+
+.paginator-center{
+  position: center;
+}
+
 .card-padding{
   padding: 60px;
 }
 
+.card-padding2{
+  padding: 120px;
+}
 @media only screen and (max-width: 500px) {
   body {
     overflow: hidden;
@@ -121,6 +146,7 @@ li a.dropdown-toggle::after {
   .content.is-open {
     margin-left: 100%;
   }
+
 
 
   .sidebar.is-open {
