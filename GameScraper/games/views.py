@@ -1,8 +1,10 @@
 from rest_framework.pagination import LimitOffsetPagination
-from rest_framework import viewsets, generics
+from rest_framework import viewsets, generics, views
 from games.models import GamesModel, HistoryModel
-from games.serializers import GameSerializer, PriceSerializer
+from games.serializers import GameSerializer, PriceSerializer,GameScrapingSerializer
 from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework.response import Response
+
 
 class GamesViewSet(viewsets.ModelViewSet,generics.ListAPIView):
     pagination_class = LimitOffsetPagination
@@ -25,3 +27,13 @@ class PriceHistory(viewsets.ModelViewSet,generics.ListAPIView):
         game_id = self.request.query_params.get('game_id')
         queryset = HistoryModel.objects.filter(game_id=game_id)
         return queryset
+
+class GameRequest(viewsets.ModelViewSet,views.APIView):
+    serializer_class = GameSerializer
+
+    def get_queryset(self):
+        id = self.request.query_params.get('id')
+        queryset = GamesModel.objects.filter(id=id)
+        return queryset
+
+

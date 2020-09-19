@@ -8,5 +8,6 @@ router = routers.DefaultRouter()
 router.register('api/accounts', AccountViewSet, 'accounts' )
 router.register('api/games', views.GamesViewSet,'games')
 router.register('api/price', views.PriceHistory,'price')
+router.register('api/game_info', views.GameRequest,'price')
 
 urlpatterns = router.urls
