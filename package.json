@@ -26,8 +26,10 @@
     "@fortawesome/free-solid-svg-icons": "^5.14.0",
     "@fortawesome/react-fontawesome": "^0.1.11",
     "axios": "^0.20.0",
+    "chart.js": "^2.9.3",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
+    "react-chartjs-2": "^2.10.0",
     "react-dom": "^16.13.1",
     "react-perfect-scrollbar": "^1.5.8",
     "react-reactstrap-pagination": "^2.0.3",
@@ -37,6 +39,7 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
-    "styled-components": "^5.2.0"
+    "styled-components": "^5.2.0",
+    "use-react-router": "^1.0.7"
   }
 }

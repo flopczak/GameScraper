@@ -10,27 +10,36 @@ import {
 import axios from "axios";
 import PaginationComponent from "react-reactstrap-pagination";
 import useReactRouter from "use-react-router";
+import { useParams } from "react-router-dom";
 
-export const MainGamesView = () => {
+export const FilteredGamesView = () => {
   const [results, setResults] = useState([]);
   const [flag, setFlag] = useState(false);
   const [pagesCount, setPagesCount] = useState(0);
+  const { id } = useParams();
 
   const { history } = useReactRouter();
 
   const updateData = () => {
-    if (!flag) {
-      axios.get("http://127.0.0.1:8000/api/games/").then((response) => {
+    let link = "http://localhost:8000/api/games/";
+    if (id) {
+      link = `http://localhost:8000/api/games/?console=${id}`;
+    }
+    axios
+      .get(link)
+      .then((response) => {
         setResults(response.data.results);
         setPagesCount(response.data.count);
         setFlag(true);
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    }
   };
 
   const handleOnSelect = (selectedPage) => {
     const offset = selectedPage * 51;
-    const link = `http://127.0.0.1:8000/api/games/?limit=50&offset=${offset}`;
+    const link = `http://127.0.0.1:8000/api/games/?console=${id}&limit=50&offset=${offset}`;
     axios.get(link).then((response) => {
       setResults(response.data.results);
     });
@@ -43,7 +52,7 @@ export const MainGamesView = () => {
 
   useEffect(() => {
     updateData();
-  }, []);
+  }, [id]);
 
   const displayCards = () => {
     const cards = [];
@@ -80,4 +89,4 @@ export const MainGamesView = () => {
   );
 };
 
-export default MainGamesView;
+export default FilteredGamesView;
