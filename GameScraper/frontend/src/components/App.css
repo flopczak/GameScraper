@@ -109,8 +109,39 @@ li a.dropdown-toggle::after {
   overflow: auto;
 }
 
-.card-padding{
+.card-padding {
   padding: 60px;
+}
+.card-padding2 {
+  padding: 80px;
+}
+.chart-size {
+  height: 120%;
+  width: 120%;
+}
+.button {
+  background-color: #7386d5;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+.sidebar-button {
+  background-color: #7386d5;
+  border: none;
+}
+
+.button-center {
+  display: table;
+  margin: 0 auto;
+}
+
+.card-image-size {
+  height: 50%;
+  width: 50%;
 }
 
 @media only screen and (max-width: 500px) {
@@ -121,7 +152,6 @@ li a.dropdown-toggle::after {
   .content.is-open {
     margin-left: 100%;
   }
-
 
   .sidebar.is-open {
     min-width: 100%;
