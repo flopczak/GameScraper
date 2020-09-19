@@ -4,7 +4,7 @@ from games import views
 from django.urls import path
 
 
-router = routers.DefaultRouter()
+router = routers.DefaultRouter(trailing_slash=False)
 router.register('api/accounts', AccountViewSet, 'accounts' )
 router.register('api/games', views.GamesViewSet,'games')
 router.register('api/price', views.PriceHistory,'price')

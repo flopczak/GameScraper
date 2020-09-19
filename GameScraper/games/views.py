@@ -1,4 +1,5 @@
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
+from requests import Response
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework import viewsets, generics, views, status
 from games.models import GamesModel, HistoryModel, AccountGames
@@ -39,18 +40,29 @@ class GameRequest(viewsets.ModelViewSet,views.APIView):
 
 class AccountGamesRequest(viewsets.ModelViewSet,generics.ListAPIView):
     serializer_class = AccountGamesSerializer
-    def post_queryset(self, request, format=None):
+    def get_object(self):
+        pk = self.kwargs.get('pk')
+        try:
+            return AccountGames.objects.get(game_id=pk,account_id=self.request.user)
+        except AccountGames.DoesNotExist:
+            raise Http404
+
+    def post(self, request, format=None):
         serializer = AccountGamesSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def delete(self, request):
+        queryset = self.get_object().delete()
+        return queryset
+
+
     def get_queryset(self):
         id = self.request.user
         queryset = AccountGames.objects.filter(account_id=id)
         return queryset
-
 
 
 
