@@ -6,6 +6,7 @@ import PrivateRoute from "../../common/PrivateRoute";
 import Register from "../../accounts/Register";
 import Login from "../../accounts/Login";
 import MainGamesView from "../../funcionality/MainGamesView";
+import FilteredGamesView from "../../funcionality/FilteredGamesView";
 import SideBar from "../SideBar/SideBar";
 import CardView from "../../funcionality/CardView";
 import PropTypes from "prop-types";
@@ -19,9 +20,7 @@ const Content = ({ sidebarIsOpen, toggleSidebar, auth }) => {
     <>
       {auth.isAuthenticated ? (
         <SideBar toggle={toggleSidebar} isOpen={sidebarIsOpen} />
-      ) : (
-        <></>
-      )}
+      ) : null}
 
       <Container
         fluid
@@ -31,8 +30,9 @@ const Content = ({ sidebarIsOpen, toggleSidebar, auth }) => {
           <Topbar toggleSidebar={toggleSidebar} />
         </StyledTopBar>
         <Switch>
-          <PrivateRoute exact path="/" component={MainGamesView} />
-          <Route exact path="/cardview/:id" exact component={CardView} />
+          <PrivateRoute exact path="/" component={FilteredGamesView} />
+          <PrivateRoute exact path="/cardview/:id" exact component={CardView} />
+          <PrivateRoute path="/filtered/:id" component={FilteredGamesView} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
         </Switch>

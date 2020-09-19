@@ -10,28 +10,36 @@ import {
 import axios from "axios";
 import PaginationComponent from "react-reactstrap-pagination";
 import useReactRouter from "use-react-router";
+import { useParams } from "react-router-dom";
 
-export const MainGamesView = () => {
+export const FilteredGamesView = () => {
   const [results, setResults] = useState([]);
   const [flag, setFlag] = useState(false);
   const [pagesCount, setPagesCount] = useState(0);
+  const { id } = useParams();
 
   const { history } = useReactRouter();
 
   const updateData = () => {
-    if (!flag) {
-      axios.get("http://localhost:8000/api/games").then((response) => {
-        setData(response.data);
+    let link = "http://localhost:8000/api/games/";
+    if (id) {
+      link = `http://localhost:8000/api/games/?console=${id}`;
+    }
+    axios
+      .get(link)
+      .then((response) => {
         setResults(response.data.results);
         setPagesCount(response.data.count);
         setFlag(true);
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    }
   };
 
   const handleOnSelect = (selectedPage) => {
-    const offset = selectedPage * 54;
-    const link = `http://localhost:8000/api/games?limit=54&offset=${offset}`;
+    const offset = selectedPage * 51;
+    const link = `http://127.0.0.1:8000/api/games/?console=${id}&limit=50&offset=${offset}`;
     axios.get(link).then((response) => {
       setResults(response.data.results);
     });
@@ -44,13 +52,13 @@ export const MainGamesView = () => {
 
   useEffect(() => {
     updateData();
-  }, []);
+  }, [id]);
 
   const displayCards = () => {
     const cards = [];
     results.forEach((card) => {
       cards.push(
-        <Card className="card-style">
+        <Card>
           <CardImg alt="..." src={card.img} top></CardImg>
           <CardBody>
             <CardTitle>{card.title}</CardTitle>
@@ -73,13 +81,12 @@ export const MainGamesView = () => {
     <>
       <div className=" card-columns card-padding">{displayCards()}</div>
       <PaginationComponent
-        size="lg"
         totalItems={pagesCount}
-        pageSize={54}
+        pageSize={51}
         onSelect={handleOnSelect}
       />
     </>
   );
 };
 
-export default MainGamesView;
+export default FilteredGamesView;
