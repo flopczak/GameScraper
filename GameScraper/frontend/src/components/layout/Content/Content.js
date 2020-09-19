@@ -7,6 +7,7 @@ import Register from "../../accounts/Register";
 import Login from "../../accounts/Login";
 import MainGamesView from "../../funcionality/MainGamesView";
 import SideBar from "../SideBar/SideBar";
+import CardView from "../../funcionality/CardView";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
@@ -31,6 +32,7 @@ const Content = ({ sidebarIsOpen, toggleSidebar, auth }) => {
         </StyledTopBar>
         <Switch>
           <PrivateRoute exact path="/" component={MainGamesView} />
+          <Route exact path="/cardview/:id" exact component={CardView} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
         </Switch>

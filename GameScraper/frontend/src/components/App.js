@@ -9,7 +9,7 @@ import Content from "./layout/Content/Content";
 import "./App.css";
 
 const App = () => {
-  const [sidebarIsOpen, setSidebarOpen] = useState(true);
+  const [sidebarIsOpen, setSidebarOpen] = useState(false);
   const toggleSidebar = () => setSidebarOpen(!sidebarIsOpen);
 
   useEffect(() => {

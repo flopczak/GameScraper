@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useHistory } from "react";
 import {
   Card,
   CardBody,
@@ -9,12 +9,15 @@ import {
 } from "reactstrap";
 import axios from "axios";
 import PaginationComponent from "react-reactstrap-pagination";
+import useReactRouter from "use-react-router";
 
 export const MainGamesView = () => {
   const [data, setData] = useState([]);
   const [results, setResults] = useState([]);
   const [flag, setFlag] = useState(false);
   const [pagesCount, setPagesCount] = useState(0);
+
+  const { history } = useReactRouter();
 
   const updateData = () => {
     if (!flag) {
@@ -36,7 +39,11 @@ export const MainGamesView = () => {
     });
   };
 
-  const handleOnClick = () => {};
+  const handleOnClick = (e) => {
+    e.preventDefault();
+    console.log(e.target.value);
+    history.push(`/cardview/${e.target.value}`);
+  };
 
   useEffect(() => {
     console.log("useeefect", data);
@@ -53,8 +60,8 @@ export const MainGamesView = () => {
             <CardText>{card.price} zł</CardText>
             <Button
               color="primary"
-              href="#pablo"
-              onClick={(e) => e.preventDefault()}
+              onClick={(e) => handleOnClick(e, "value")}
+              value={card.id}
             >
               Go to page
             </Button>
