@@ -13,8 +13,10 @@ import {
 import axios from "axios";
 import {useParams} from "react-router-dom";
 import {Line} from "react-chartjs-2";
+import {connect} from "react-redux";
+import PropTypes from "prop-types";
 
-const CardView = () => {
+const CardView = ({auth}) => {
 
     const URL = 'http://localhost:8000/api/'
     const {id} = useParams();
@@ -36,6 +38,11 @@ const CardView = () => {
     };
 
     const updateData = () => {
+        let config = {
+            headers: {
+                "Authorization": "Token " + auth.token,
+            }
+        }
         axios
             .get(URL + `game_info?id=${id}`)
             .then((data) => {
@@ -45,7 +52,7 @@ const CardView = () => {
         axios.get(URL + `price?game_id=${id}`).then((data) => {
             setChartData(data.data.results);
         });
-        axios.get(URL + ``)
+        axios.get(URL + `del_games/${id}`, config)
             .then(() => {
                 setFavGame(true);
             })
@@ -94,13 +101,41 @@ const CardView = () => {
         setChartLayoutData(data1);
     }, [xyAxis]);
 
-    const unsubscribe = () => {
-
+    const postSub = () => {
+        let body = {"game_id": data.id};
+        let config = {
+            headers: {
+                "Authorization": "Token " + auth.token,
+            }
+        }
+        axios.post(URL + `acc_games`, body, config)
+            .then(() => {
+                setFavGame(true);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }
 
-    const handleOnClick = (e) =>{
+    const delSub = () => {
+        let config = {
+            headers: {
+                "Authorization": "Token " + auth.token,
+            }
+        }
+        axios.delete(URL + 'del_games/' + data.id, config)
+            .then(() => {
+                setFavGame(false);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+
+
+    const handleOnClick = (e) => {
         e.preventDefault();
-        favGame ? unsubscribe() : subscribe();
+        favGame ? delSub() : postSub();
     }
 
     return (
@@ -120,7 +155,7 @@ const CardView = () => {
                     <Button
                         className='button button-center'
                         onClick={(e) => handleOnClick(e, "value")}
-                        value = {id}
+                        value={id}
                     >
                         {favGame ? "Unsubscribe game" : "Subscribe game"}
                     </Button>
@@ -137,4 +172,12 @@ const CardView = () => {
     );
 };
 
-export default CardView;
+const mapStateToProps = (state) => ({
+    auth: state.auth
+});
+
+CardView.propTypes = {
+    auth: PropTypes.object.isRequired
+}
+
+export default connect(mapStateToProps)(CardView);
