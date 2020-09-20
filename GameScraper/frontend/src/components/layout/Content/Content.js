@@ -9,6 +9,7 @@ import MainGamesView from "../../funcionality/MainGamesView";
 import FilteredGamesView from "../../funcionality/FilteredGamesView";
 import SideBar from "../SideBar/SideBar";
 import CardView from "../../funcionality/CardView";
+import MyGames from "../../funcionality/MyGames";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
@@ -32,6 +33,7 @@ const Content = ({ sidebarIsOpen, toggleSidebar, auth }) => {
         <Switch>
           <PrivateRoute exact path="/" component={FilteredGamesView} />
           <PrivateRoute exact path="/cardview/:id" exact component={CardView} />
+          <PrivateRoute path="/filtered/MyGames" component={MyGames} />
           <PrivateRoute path="/filtered/:id" component={FilteredGamesView} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />

@@ -1,9 +1,9 @@
+from django.http import JsonResponse, Http404
 from rest_framework.pagination import LimitOffsetPagination
-from rest_framework import viewsets, generics, views
-from games.models import GamesModel, HistoryModel
-from games.serializers import GameSerializer, PriceSerializer,GameScrapingSerializer
+from rest_framework import viewsets, generics, views, status
+from games.models import GamesModel, HistoryModel, AccountGames
+from games.serializers import GameSerializer, PriceSerializer, AccountGamesSerializer
 from rest_framework.filters import SearchFilter, OrderingFilter
-from rest_framework.response import Response
 
 
 class GamesViewSet(viewsets.ModelViewSet,generics.ListAPIView):
@@ -30,10 +30,46 @@ class PriceHistory(viewsets.ModelViewSet,generics.ListAPIView):
 
 class GameRequest(viewsets.ModelViewSet,views.APIView):
     serializer_class = GameSerializer
-
     def get_queryset(self):
         id = self.request.query_params.get('id')
-        queryset = GamesModel.objects.filter(id=id)
+        ids = id.split(",")
+        queryset = GamesModel.objects.filter(id=ids[0])
+        for i in ids:
+            if i == ids[0]:
+                continue
+            else:
+                queryset = queryset | GamesModel.objects.filter(id=i)
         return queryset
 
+class AccountGamesRequest(viewsets.ModelViewSet,generics.ListAPIView):
+    serializer_class = AccountGamesSerializer
+
+    def post(self):
+        serializer = AccountGamesSerializer(data=self.request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def get_queryset(self):
+        id = self.request.user
+        queryset = AccountGames.objects.filter(account_id=id)
+        return queryset
+
+class AccountGamesDel(viewsets.ModelViewSet,generics.ListAPIView):
+    serializer_class = AccountGamesSerializer
+    def get_queryset(self,pk):
+        queryset = AccountGames.objects.filter(game_id=pk,account_id=id)
+        return queryset
+
+    def get_object(self):
+        pk = self.kwargs.get('pk')
+        try:
+            return AccountGames.objects.get(game_id=pk,account_id=self.request.user)
+        except AccountGames.DoesNotExist:
+            raise Http404
+
+    def delete(self, request):
+        queryset = self.get_object().delete()
+        return queryset
 

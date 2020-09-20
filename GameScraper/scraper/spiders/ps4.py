@@ -1,5 +1,7 @@
+import datetime
+
 import scrapy
-from games.models import GamesModel, HistoryModel
+from games.models import GamesModel, HistoryModel, GamesChanged
 
 class PS4Spider(scrapy.Spider):
     name = "ps4"
@@ -23,12 +25,17 @@ class PS4Spider(scrapy.Spider):
                 price = 00.00
             try:
                 item = GamesModel.objects.get(link=link)
+                games_updated = GamesChanged()
                 history = HistoryModel()
                 setattr(history, 'game_id', item)
                 setattr(history, 'title', getattr(item, 'title'))
                 setattr(history, 'price', getattr(item, 'price'))
+                setattr(history, 'date', getattr(item, 'date'))
                 history.save()
-                GamesModel.objects.filter(link=link).update(price=price)
+                if getattr(item, 'price') > price:
+                    setattr(games_updated,'game_id',item)
+                    games_updated.save()
+                GamesModel.objects.filter(link=link).update(price=price, date=datetime.now)
             except GamesModel.DoesNotExist:
                 item = GamesModel()
                 setattr(item, 'title', title)

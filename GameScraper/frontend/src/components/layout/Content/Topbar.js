@@ -8,6 +8,10 @@ import {
   Collapse,
   Nav,
   NavItem,
+  Form,
+  Input,
+  Col,
+    Row,
 } from "reactstrap";
 import { connect } from "react-redux";
 import { logout } from "../../../actions/auth";
@@ -18,11 +22,20 @@ const Topbar = ({ toggleSidebar, sidebarIsOpen, auth, logout }) => {
   const [topbarIsOpen, setTopbarOpen] = useState(true);
   const toggleTopbar = () => setTopbarOpen(!topbarIsOpen);
 
+
   const conditionalAuthDisplay = () => {
     if (auth.isAuthenticated) {
       return (
         <NavItem>
+          <Row>
+          <Col>
+              <Form>
+                  <Input placeholder="search" bsSize="lg" id ="myInput"/>
+              </Form>
+          </Col>
+          <Col>
           <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
+
             <span className="navbar-text mr-3">
               <strong>
                 {auth.user ? `Welcome ${auth.user.username}` : ""}
@@ -37,6 +50,8 @@ const Topbar = ({ toggleSidebar, sidebarIsOpen, auth, logout }) => {
               </button>
             </li>
           </ul>
+            </Col>
+          </Row>
         </NavItem>
       );
     } else {

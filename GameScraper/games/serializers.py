@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from games.models import Account, GamesModel, HistoryModel
+from games.models import Account, GamesModel, HistoryModel, AccountGames
 
 
 #Item Serializer
@@ -14,16 +14,21 @@ class PriceSerializer(serializers.ModelSerializer):
         model = HistoryModel
         fields = '__all__'
 
-#Account Serializer 
+#Account Serializer
 class AccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
         fields = '__all__'
 
-class GameScrapingSerializer(serializers.Serializer):
-   """Your data serializer, define your fields here."""
-   title = serializers.CharField(max_length=150)
-   price = serializers.IntegerField()
-   # description = serializers.CharField(max_length=1000)
-   picture = serializers.CharField(max_length=300)
-   link = serializers.CharField(max_length=300)
+#Account Serializer
+class AccountGamesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AccountGames
+        fields = '__all__'
+        read_only_fields = ['account_id']
+
+    def validate(self, attrs):
+        # print(self.context['request'].user)
+        attrs['account_id'] = self.context['request'].user
+        return attrs
+

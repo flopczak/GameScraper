@@ -20,7 +20,8 @@ export const MainGamesView = () => {
 
   const updateData = () => {
     if (!flag) {
-      axios.get("http://127.0.0.1:8000/api/games/").then((response) => {
+      axios.get("http://localhost:8000/api/games").then((response) => {
+        setData(response.data);
         setResults(response.data.results);
         setPagesCount(response.data.count);
         setFlag(true);
@@ -29,8 +30,8 @@ export const MainGamesView = () => {
   };
 
   const handleOnSelect = (selectedPage) => {
-    const offset = selectedPage * 51;
-    const link = `http://127.0.0.1:8000/api/games/?limit=50&offset=${offset}`;
+    const offset = selectedPage * 54;
+    const link = `http://localhost:8000/api/games?limit=54&offset=${offset}`;
     axios.get(link).then((response) => {
       setResults(response.data.results);
     });
@@ -49,7 +50,7 @@ export const MainGamesView = () => {
     const cards = [];
     results.forEach((card) => {
       cards.push(
-        <Card>
+        <Card className="card-style">
           <CardImg alt="..." src={card.img} top></CardImg>
           <CardBody>
             <CardTitle>{card.title}</CardTitle>
@@ -72,8 +73,9 @@ export const MainGamesView = () => {
     <>
       <div className=" card-columns card-padding">{displayCards()}</div>
       <PaginationComponent
+        size="lg"
         totalItems={pagesCount}
-        pageSize={51}
+        pageSize={54}
         onSelect={handleOnSelect}
       />
     </>

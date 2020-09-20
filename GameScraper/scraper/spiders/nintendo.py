@@ -1,7 +1,9 @@
+import datetime
+
 import scrapy
 from scrapy_splash import SplashRequest
 from currency_converter import CurrencyConverter
-from games.models import GamesModel, HistoryModel
+from games.models import GamesModel, HistoryModel, GamesChanged
 
 
 class NintendoSpider(scrapy.Spider):
@@ -35,11 +37,16 @@ class NintendoSpider(scrapy.Spider):
             try:
                 item = GamesModel.objects.get(link=link)
                 history = HistoryModel()
+                games_updated = GamesChanged()
                 setattr(history, 'game_id', item)
                 setattr(history, 'title', getattr(item, 'title'))
                 setattr(history, 'price', getattr(item, 'price'))
+                setattr(history, 'date', getattr(item, 'date'))
                 history.save()
-                GamesModel.objects.filter(link=link).update(price=price)
+                if getattr(item, 'price') > price:
+                    setattr(games_updated, 'game_id', item)
+                    games_updated.save()
+                GamesModel.objects.filter(link=link).update(price=price, date=datetime.now)
             except GamesModel.DoesNotExist:
                 item = GamesModel()
                 setattr(item, 'title', title)

@@ -109,8 +109,33 @@ li a.dropdown-toggle::after {
   overflow: auto;
 }
 
-.card-padding {
-  padding: 60px;
+
+.card-columns {
+  column-count: 6;
+}
+
+.card-style {
+  height: 500px;
+}
+
+.div-form{
+  text-align:center;
+}
+.form-form{
+  display: inline-block;
+}
+
+.paginator-center{
+  position: center;
+}
+
+
+.img-card{
+    max-height: 300px;
+
+}
+.card-padding{
+  padding: 70px;
 }
 .card-padding2 {
   padding: 80px;
@@ -152,6 +177,7 @@ li a.dropdown-toggle::after {
   .content.is-open {
     margin-left: 100%;
   }
+
 
   .sidebar.is-open {
     min-width: 100%;
