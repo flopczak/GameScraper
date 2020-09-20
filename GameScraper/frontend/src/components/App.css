@@ -109,30 +109,33 @@ li a.dropdown-toggle::after {
   overflow: auto;
 }
 
-ul li {
-display: inline-block;
-}
-
-
-.container{
- background: red;
- text-align: center;
-}
 
 .card-columns {
   column-count: 6;
 }
 
 .card-style {
-  height: 460px;
+  height: 500px;
+}
+
+.div-form{
+  text-align:center;
+}
+.form-form{
+  display: inline-block;
 }
 
 .paginator-center{
   position: center;
 }
 
+
+.img-card{
+    max-height: 300px;
+
+}
 .card-padding{
-  padding: 60px;
+  padding: 70px;
 }
 .card-padding2 {
   padding: 80px;

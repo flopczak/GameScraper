@@ -16,14 +16,14 @@ export const FilteredGamesView = () => {
   const [results, setResults] = useState([]);
   const [flag, setFlag] = useState(false);
   const [pagesCount, setPagesCount] = useState(0);
-  const { id } = useParams();
+  const { id} = useParams();
 
   const { history } = useReactRouter();
 
   const updateData = () => {
-    let link = "http://localhost:8000/api/games/";
+    let link =`http://localhost:8000/api/games`;
     if (id) {
-      link = `http://localhost:8000/api/games/?console=${id}`;
+      link =  `http://localhost:8000/api/games?console=${id}`
     }
     axios
       .get(link)
@@ -38,8 +38,11 @@ export const FilteredGamesView = () => {
   };
 
   const handleOnSelect = (selectedPage) => {
-    const offset = selectedPage * 51;
-    const link = `http://127.0.0.1:8000/api/games/?console=${id}&limit=50&offset=${offset}`;
+    const offset = selectedPage * 54;
+    let link = `http://localhost:8000/api/games?limit=54&offset=${offset}`;
+    if (id) {
+      link =  `http://127.0.0.1:8000/api/games?console=${id}&limit=54&offset=${offset}`
+    }
     axios.get(link).then((response) => {
       setResults(response.data.results);
     });
@@ -58,8 +61,8 @@ export const FilteredGamesView = () => {
     const cards = [];
     results.forEach((card) => {
       cards.push(
-        <Card>
-          <CardImg alt="..." src={card.img} top></CardImg>
+        <Card className="card-style">
+          <CardImg className="img-card" alt="..." src={card.img} top></CardImg>
           <CardBody>
             <CardTitle>{card.title}</CardTitle>
             <CardText>{card.price} zł</CardText>
@@ -81,8 +84,9 @@ export const FilteredGamesView = () => {
     <>
       <div className=" card-columns card-padding">{displayCards()}</div>
       <PaginationComponent
+        size="lg"
         totalItems={pagesCount}
-        pageSize={51}
+        pageSize={54}
         onSelect={handleOnSelect}
       />
     </>
