@@ -1,10 +1,13 @@
+import datetime
+
 from django.core.management.base import BaseCommand
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
-from games.models import GamesModel, HistoryModel
+from games.models import GamesModel, HistoryModel, GamesChanged
+
 
 
 class Command(BaseCommand):
@@ -40,11 +43,14 @@ class Command(BaseCommand):
                 try:
                     item = GamesModel.objects.get(link=link)
                     history = HistoryModel()
+                    games_updated = GamesChanged()
                     setattr(history, 'game_id', item)
                     setattr(history, 'title', getattr(item, 'title'))
                     setattr(history, 'price', getattr(item, 'price'))
-                    history.save()
-                    GamesModel.objects.filter(link=link).update(price=price)
+                    if getattr(item, 'price') > price:
+                        setattr(games_updated, 'game_id', item)
+                        games_updated.save()
+                    GamesModel.objects.filter(link=link).update(price=price, date=datetime.now)
                 except GamesModel.DoesNotExist:
                     item = GamesModel()
                     setattr(item, 'title', title)

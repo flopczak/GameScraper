@@ -3,7 +3,7 @@ from requests import Response
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework import viewsets, generics, views, status
 from games.models import GamesModel, HistoryModel, AccountGames
-from games.serializers import GameSerializer, PriceSerializer,GameScrapingSerializer, AccountGamesSerializer
+from games.serializers import GameSerializer, PriceSerializer, AccountGamesSerializer
 from rest_framework.filters import SearchFilter, OrderingFilter
 
 
@@ -54,8 +54,6 @@ class AccountGamesRequest(viewsets.ModelViewSet,generics.ListAPIView):
             return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-
     def get_queryset(self):
         id = self.request.user
         queryset = AccountGames.objects.filter(account_id=id)
@@ -63,9 +61,8 @@ class AccountGamesRequest(viewsets.ModelViewSet,generics.ListAPIView):
 
 class AccountGamesDel(viewsets.ModelViewSet,generics.ListAPIView):
     serializer_class = AccountGamesSerializer
-    def get_queryset(self):
-        id = self.request.user
-        queryset = AccountGames.objects.filter(account_id=id)
+    def get_queryset(self,pk):
+        queryset = AccountGames.objects.filter(game_id=pk,account_id=id)
         return queryset
 
     def get_object(self):

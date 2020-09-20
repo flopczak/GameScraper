@@ -31,3 +31,6 @@ class AccountGames(models.Model):
     account_id = models.ForeignKey(User, on_delete=models.CASCADE)
     game_id = models.ForeignKey(GamesModel, on_delete=models.CASCADE)
 
+class GamesChanged(models.Model):
+    game_id = models.ForeignKey(GamesModel, on_delete=models.CASCADE)
+
