@@ -58,9 +58,10 @@ class AccountGamesRequest(viewsets.ModelViewSet,generics.ListAPIView):
 
 class AccountGamesDel(viewsets.ModelViewSet,generics.ListAPIView):
     serializer_class = AccountGamesSerializer
-    def get_queryset(self,pk):
-        queryset = AccountGames.objects.filter(game_id=pk,account_id=id)
-        return queryset
+
+    # def get_queryset(self,pk):
+    #     queryset = AccountGames.objects.filter(game_id=pk,account_id=id)
+    #     return queryset
 
     def get_object(self):
         pk = self.kwargs.get('pk')
@@ -69,7 +70,7 @@ class AccountGamesDel(viewsets.ModelViewSet,generics.ListAPIView):
         except AccountGames.DoesNotExist:
             raise Http404
 
-    def delete(self, request):
+    def delete(self):
         queryset = self.get_object().delete()
         return queryset
 

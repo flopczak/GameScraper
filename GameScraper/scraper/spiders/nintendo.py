@@ -46,7 +46,9 @@ class NintendoSpider(scrapy.Spider):
                 if getattr(item, 'price') > price:
                     setattr(games_updated, 'game_id', item)
                     games_updated.save()
-                GamesModel.objects.filter(link=link).update(price=price, date=datetime.now)
+                item.date = datetime.datetime.now()
+                item.price = price
+                item.save()
             except GamesModel.DoesNotExist:
                 item = GamesModel()
                 setattr(item, 'title', title)
