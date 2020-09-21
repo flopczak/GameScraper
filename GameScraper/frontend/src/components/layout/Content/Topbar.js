@@ -11,45 +11,61 @@ import {
   Form,
   Input,
   Col,
-    Row,
+  Row,
 } from "reactstrap";
 import { connect } from "react-redux";
 import { logout } from "../../../actions/auth";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import useReactRouter from "use-react-router";
 
 const Topbar = ({ toggleSidebar, sidebarIsOpen, auth, logout }) => {
   const [topbarIsOpen, setTopbarOpen] = useState(true);
+  const [search, setSearch] = useState("");
   const toggleTopbar = () => setTopbarOpen(!topbarIsOpen);
+  const { history } = useReactRouter();
 
+  const handleOnSubmit = (target) => {
+    if (target.charCode == 13) {
+      history.push(`/filtered/${search}`);
+    }
+  };
 
   const conditionalAuthDisplay = () => {
     if (auth.isAuthenticated) {
       return (
         <NavItem>
           <Row>
-          <Col>
+            <Col>
               <Form>
-                  <Input placeholder="search" bsSize="lg" id ="myInput"/>
+                <Input
+                  placeholder="search"
+                  bsSize="lg"
+                  id="myInput"
+                  onChange={(e) => {
+                    setSearch(e.target.value);
+                  }}
+                  onKeyPress={handleOnSubmit}
+                />
               </Form>
-          </Col>
-          <Col>
-          <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
-
-            <span className="navbar-text mr-3">
-              <strong>
-                {auth.user ? `Welcome ${auth.user.username}` : ""}
-              </strong>
-            </span>
-            <li className="nav-item">
-              <button
-                onClick={logout}
-                className="nav-link btn btn-info btn-sm text-light"
-              >
-                Logout
-              </button>
-            </li>
-          </ul>
+              {console.log(search)}
+            </Col>
+            <Col>
+              <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
+                <span className="navbar-text mr-3">
+                  <strong>
+                    {auth.user ? `Welcome ${auth.user.username}` : ""}
+                  </strong>
+                </span>
+                <li className="nav-item">
+                  <button
+                    onClick={logout}
+                    className="nav-link btn btn-info btn-sm text-light"
+                  >
+                    Logout
+                  </button>
+                </li>
+              </ul>
             </Col>
           </Row>
         </NavItem>
