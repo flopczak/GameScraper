@@ -44,8 +44,8 @@ class GameRequest(viewsets.ModelViewSet,views.APIView):
 class AccountGamesRequest(viewsets.ModelViewSet,generics.ListAPIView):
     serializer_class = AccountGamesSerializer
 
-    def post(self, request, format=None):
-        serializer = AccountGamesSerializer(data=request.data)
+    def post(self):
+        serializer = AccountGamesSerializer(data=self.request.data)
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)

@@ -75,10 +75,6 @@ export class Login extends Component {
   }
 }
 
-export const Test = () => {
-  return <div>pippa</div>;
-};
-
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
 });

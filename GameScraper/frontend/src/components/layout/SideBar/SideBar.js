@@ -30,6 +30,12 @@ const SideBar = ({ isOpen, toggle }) => {
             </NavLink>
           </NavItem>
           <NavItem>
+            <NavLink tag={Link} to={`/filtered/MyGames`} replace>
+              <FontAwesomeIcon icon={faGamepad} className="mr-2" />
+              My Games
+            </NavLink>
+          </NavItem>
+          <NavItem>
             <NavLink tag={Link} to={`/filtered/PS4`} replace>
               <FontAwesomeIcon icon={faGamepad} className="mr-2" />
               PS4
