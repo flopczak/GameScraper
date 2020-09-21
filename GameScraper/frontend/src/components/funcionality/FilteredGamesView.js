@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import {
-  Card,
-  CardBody,
-  CardImg,
-  CardText,
-  CardTitle,
-  Button,
+    Card,
+    CardBody,
+    CardImg,
+    CardText,
+    CardTitle,
+    Button,
 } from "reactstrap";
 import axios from "axios";
 import PaginationComponent from "react-reactstrap-pagination";
@@ -20,7 +20,7 @@ export const FilteredGamesView = () => {
   const [pagesCount, setPagesCount] = useState(0);
   const { id } = useParams();
 
-  const { history } = useReactRouter();
+    const {history} = useReactRouter();
 
   const updateData = () => {
     let link = `http://localhost:8000/api/games`;
@@ -54,14 +54,15 @@ export const FilteredGamesView = () => {
     });
   };
 
-  const handleOnClick = (e) => {
-    e.preventDefault();
-    history.push(`/cardview/${e.target.value}`);
-  };
 
-  useEffect(() => {
-    updateData();
-  }, [id]);
+    const handleOnClick = (e) => {
+        e.preventDefault();
+        history.push(`/cardview/${e.target.value}`);
+    };
+
+    useEffect(() => {
+        updateData();
+    }, [id]);
 
   const displayCards = () => {
     const cards = [];
@@ -87,17 +88,18 @@ export const FilteredGamesView = () => {
     return cards;
   };
 
-  return (
-    <>
-      <div className=" card-columns card-padding">{displayCards()}</div>
-      <PaginationComponent
-        size="lg"
-        totalItems={pagesCount}
-        pageSize={54}
-        onSelect={handleOnSelect}
-      />
-    </>
-  );
+
+    return (
+        <>
+            <div className=" card-columns card-padding">{displayCards()}</div>
+            <PaginationComponent
+                size="lg"
+                totalItems={pagesCount}
+                pageSize={54}
+                onSelect={handleOnSelect}
+            />
+        </>
+    );
 };
 
 const mapStateToProps = (state) => ({
@@ -107,5 +109,6 @@ const mapStateToProps = (state) => ({
 FilteredGamesView.propTypes = {
   auth: PropTypes.object.isRequired,
 };
+
 
 export default connect(mapStateToProps)(FilteredGamesView);
