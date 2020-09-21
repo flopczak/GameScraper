@@ -4,15 +4,8 @@ import { faHome, faGamepad } from "@fortawesome/free-solid-svg-icons";
 import { NavItem, NavLink, Nav } from "reactstrap";
 import classNames from "classnames";
 import { Link } from "react-router-dom";
-import useReactRouter from "use-react-router";
 
 const SideBar = ({ isOpen, toggle }) => {
-  const { history } = useReactRouter();
-  const handleOnClickXbox = (e) => {
-    e.preventDefault();
-    history.push(`/filtered/xbox`);
-  };
-
   return (
     <div className={classNames("sidebar", { "is-open": isOpen })}>
       <div className="sidebar-header">
